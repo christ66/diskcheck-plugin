@@ -131,30 +131,12 @@ public class Diskcheck extends BuildWrapper {
 		if (diskrecyclerenabled) {
 			if (roundedSize < SpaceThreshold) {
 				log.println("Disk Recycler is Enabled so I am going to wipe off the workspace Directory Now ");
-				String mycommand = "echo $WORKSPACE; rm -rf $WORKSPACE/../; df -k .";
-				String mywincommand = "echo Deleting file from %WORKSPACE% && Del /R %WORKSPACE%";
 
-				/**
-				 * This method will return the command intercepter as per the
-				 * node OS
-				 * 
-				 * @param launcher
-				 * @param script
-				 * @return CommandInterpreter
-				 */
-				CommandInterpreter runscript;
-				if (launcher.isUnix())
-					runscript = new Shell(mycommand);
-				else
-					runscript = new BatchFile(mywincommand);
-
-				Result result = runscript.perform(build, launcher, listener) ? Result.SUCCESS
-						: Result.FAILURE;
-
-				if (result.toString() == "FAILURE") {
-					throw new AbortException(
-							"Something went wrong while deleting Files , Please check the error message above");
-				}
+				// Use Jenkins internal api to delete files recursively.
+				// On any errors the exception will bubble up causing the
+				// build to fail.
+				build.getWorkspace().deleteRecursive();
+				log.println("Workspace size after cleanup: " + DiskSpaceMonitor.DESCRIPTOR.get(Comp).size);
 			}
 		}
 
