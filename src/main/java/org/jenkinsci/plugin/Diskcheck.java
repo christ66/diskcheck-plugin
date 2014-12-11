@@ -127,8 +127,9 @@ public class Diskcheck extends BuildWrapper {
 		}
 
 		log.println(" Node Name: " + NodeName);
-	
-		if (PluginImpl.getInstance().isDiskrecyclerenabled()) {
+
+		boolean diskrecyclerenabled = PluginImpl.getInstance().isDiskrecyclerenabled();
+		if (diskrecyclerenabled) {
 			if (roundedSize < SpaceThreshold) {
 				log.println("Disk Recycler is Enabled so I am going to wipe off the workspace Directory Now ");
 				String mycommand = "echo $WORKSPACE; rm -rf $WORKSPACE/../; df -k .";
@@ -179,7 +180,7 @@ public class Diskcheck extends BuildWrapper {
 		 * System.out.println("build.getUrl(): " + build.getUrl());
 		 */
 		if (roundedSize < SpaceThreshold
-				&& !(PluginImpl.getInstance().isDiskrecyclerenabled())) {
+				&& !diskrecyclerenabled) {
 			throw new AbortException(
 					"Disk Space is too low please look into it before starting a build");
 
