@@ -121,7 +121,7 @@ public class Diskcheck extends BuildWrapper {
 		int roundedSize = (int) (size / (1024 * 1024 * 1024));
 		log.println("Total Disk Space Available is: " + roundedSize + "Gb");
 
-		if (build.getBuiltOnStr() == "") {
+		if ("".equals(NodeName)) {
 			NodeName = "master";
 		}
 
