@@ -102,8 +102,7 @@ public class Diskcheck extends BuildWrapper {
 			BuildListener listener) throws IOException, InterruptedException {
 		PrintStream log = listener.getLogger();
 // Default value of disk space check is 1Gb		
-		int SpaceThreshold=1;
-		SpaceThreshold = PluginImpl.getInstance().spacecheck();
+		int SpaceThreshold = PluginImpl.getInstance().spacecheck();
 		
 
 		log.println("Disk space threshold is set to :" + SpaceThreshold + "Gb");
